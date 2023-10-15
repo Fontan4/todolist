@@ -21,32 +21,38 @@ public class FilterTaskAuth extends OncePerRequestFilter {
     private IUserRepository userRepository;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws IOException, ServletException {
-        var authorization = request.getHeader("Authorization");
+        var servletPath = request.getServletPath();
 
-        var authEncoded = authorization.substring("Basic".length()).trim();
+        if (servletPath.startsWith("/tasks/")) {
+            var authorization = request.getHeader("Authorization");
 
-        byte[] authDecoded = Base64.getDecoder().decode(authEncoded);
-        var authString = new String(authDecoded);
-        System.out.println(authString);
+            var authEncoded = authorization.substring("Basic".length()).trim();
 
-        String[] credentials = authString.split(":");
+            byte[] authDecoded = Base64.getDecoder().decode(authEncoded);
+            var authString = new String(authDecoded);
+            System.out.println(authString);
 
-        String username = credentials[0];
-        String password = credentials[1];
+            String[] credentials = authString.split(":");
 
-        var user = this.userRepository.findByUsername(username);
-        if (user == null) {
-            response.sendError(401, "Invalid Credentials");
-            ;
-        } else {
-            var passwordVerify = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword().toCharArray());
-            if (passwordVerify.verified) {
-                chain.doFilter(request, response);
-            } else {
+            String username = credentials[0];
+            String password = credentials[1];
+
+            var user = this.userRepository.findByUsername(username);
+            if (user == null) {
                 response.sendError(401, "Invalid Credentials");
+            } else {
+                var passwordVerify = BCrypt.verifyer().verify(password.toCharArray(), user.getPassword());
+                if (passwordVerify.verified) {
+                    request.setAttribute("idUser", user.getId());
+                    filterChain.doFilter(request, response);
+                } else {
+                    response.sendError(401, "Invalid Credentials");
+                }
             }
+        } else {
+            filterChain.doFilter(request, response);
         }
 
     }
