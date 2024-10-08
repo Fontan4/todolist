@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "1da86d88-cd09-47ad-b227-2e4e908d6e59",
+		"name": "Todo list java",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28681153",
+		"_collection_link": "https://bold-shuttle-657292.postman.co/workspace/Foxtrot-Server~2c1c7c0f-598a-468f-accc-cdfe53d3af40/collection/28681153-1da86d88-cd09-47ad-b227-2e4e908d6e59?action=share&source=collection_link&creator=28681153"
+	},
+	"item": [
+		{
+			"name": "Get tasks",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Create user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"string\",\n    \"username\": \"string\",\n    \"password\": \"string\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create task",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"Teste\",\n    \"title\": \"Hello\",\n    \"startAt\": \"2024-10-08T23:52:17.338\",\n    \"endAt\": \"2024-10-09T23:49:17.338\",\n    \"priority\": \"high\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/tasks/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"tasks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change task",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"Task Alterada\",\n    \"title\": \"Alterada\",\n    \"startAt\": \"2024-10-08T23:52:17.338\",\n    \"endAt\": \"2024-10-09T23:49:17.338\",\n    \"priority\": \"medium\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/tasks/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"tasks",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "3703a4cf-a666-4ab0-a967-09ac4148331b"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "AAA",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "edulfontana@gmail.com",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8080",
+			"type": "string"
+		}
+	]
+}
